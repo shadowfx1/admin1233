@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="robots" content="noindex,nofollow,noarchive,nosnippet">
+<meta name="referrer" content="no-referrer">
+<meta name="theme-color" content="#0B0B0C">
+<title>الإعدادات | لوحة تحكم راية القانون</title>
+<link rel="icon" href="../favicon.ico" sizes="any">
+<link rel="icon" type="image/png" sizes="32x32" href="../images/favicon-32.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=El+Messiri:wght@500;600;700&family=Tajawal:wght@400;500;700&display=swap">
+<link rel="stylesheet" href="assets/admin.css">
+</head>
+<body>
+<a class="skip-link" href="#main">تخطَّ إلى المحتوى</a>
+<div class="admin">
+  <aside class="sidebar" id="sidebar" aria-label="قائمة لوحة التحكم">
+    <div class="brand"><img src="../images/logo-rayat-alqanoon.png" alt="شعار راية القانون" width="308" height="322"><div><b>راية القانون</b><span>لوحة التحكم</span></div></div>
+    <nav class="side-nav">
+      <span class="label">الإدارة</span>
+      <a href="dashboard.html"><span data-icon="dashboard"></span><span>الرئيسية</span></a>
+      <a href="requests.html"><span data-icon="inbox"></span><span>طلبات الاستشارة</span></a>
+      <a href="team.html" data-owner-only hidden><span data-icon="users"></span><span>الفريق والصلاحيات</span></a>
+      <a href="reports.html"><span data-icon="chart"></span><span>التقارير</span></a>
+      <a href="settings.html"><span data-icon="gear"></span><span>الإعدادات</span></a>
+      <span class="label">الموقع</span>
+      <a href="../index.html" target="_blank" rel="noopener"><span data-icon="home"></span><span>عرض الموقع</span></a>
+    </nav>
+    <div class="side-foot">
+      <div><div class="who" data-user-name>—</div><div class="role" data-user-role>—</div></div>
+      <button class="btn btn-line btn-sm" type="button" data-logout><span data-icon="logout"></span><span>تسجيل الخروج</span></button>
+    </div>
+  </aside>
+  <div class="sidebar-scrim" aria-hidden="true"></div>
+  <div class="main">
+    <header class="topbar">
+      <button class="sidebar-toggle" type="button" aria-label="فتح القائمة" aria-expanded="false" aria-controls="sidebar"><span data-icon="menu"></span></button>
+      <div><h1>الإعدادات</h1><span class="sub">بيانات الحساب وكلمة المرور ومعلومات النظام</span></div>
+      <div class="topbar-actions">
+        <div class="avatar" data-user-initial>—</div>
+        <div class="user-chip"><b data-user-name>—</b><span data-user-role>—</span></div>
+      </div>
+    </header>
+
+    <main class="content" id="main">
+      <div class="stack">
+        <section class="card" aria-label="بيانات الحساب">
+          <div class="card-head"><h2>بيانات الحساب</h2><span class="spacer"></span><span id="role-badge"></span></div>
+          <div class="card-body">
+            <div class="split-2">
+              <div class="kv">
+                <dt>الاسم</dt><dd data-user-name>—</dd>
+                <dt>اسم المستخدم</dt><dd><span class="code" id="acc-username">—</span></dd>
+                <dt>نوع الحساب</dt><dd id="acc-role">—</dd>
+                <dt>نطاق الوصول</dt><dd id="acc-scope">—</dd>
+              </div>
+              <div class="notice"><span data-icon="lock"></span><span>تنتهي الجلسة تلقائيًا بعد 8 ساعات، ويُطلب تسجيل الدخول من جديد. لتسجيل الخروج الآن استخدم زر الخروج في القائمة.</span></div>
+            </div>
+          </div>
+        </section>
+
+        <section class="card" aria-label="تغيير كلمة المرور">
+          <div class="card-head"><h2>تغيير كلمة المرور</h2></div>
+          <form class="card-body" id="password-form" novalidate style="display:grid;gap:.8rem;max-width:560px">
+            <div class="field" data-field="current">
+              <label for="current-password">كلمة المرور الحالية</label>
+              <input id="current-password" type="password" autocomplete="current-password" maxlength="128" required>
+              <span class="err">يرجى إدخال كلمة المرور الحالية</span>
+            </div>
+            <div class="field" data-field="next">
+              <label for="new-password">كلمة المرور الجديدة</label>
+              <input id="new-password" type="password" autocomplete="new-password" maxlength="128" minlength="10" required>
+              <span class="err">كلمة المرور يجب ألا تقل عن 10 أحرف</span>
+            </div>
+            <div class="field" data-field="confirm">
+              <label for="confirm-password">تأكيد كلمة المرور</label>
+              <input id="confirm-password" type="password" autocomplete="new-password" maxlength="128" required>
+              <span class="err">كلمتا المرور غير متطابقتين</span>
+            </div>
+            <div class="inline-actions">
+              <button class="btn btn-gold" type="submit" id="save-password"><span data-icon="key"></span> تحديث كلمة المرور</button>
+            </div>
+            <p class="small muted">تُخزَّن كلمة المرور بصيغة مشفّرة (PBKDF2 مع ملح عشوائي) ولا يمكن استرجاعها كنص. لا تُرسل كلمة المرور إلى أي جهة خارجية.</p>
+          </form>
+        </section>
+
+        <div class="split-2">
+          <section class="card" aria-label="إعدادات النظام">
+            <div class="card-head"><h2>النظام والحالات</h2></div>
+            <div class="card-body stack" style="gap:.8rem">
+              <div class="kv">
+                <dt>نموذج الموقع</dt><dd><span class="code">POST /api/requests</span></dd>
+                <dt>قاعدة البيانات</dt><dd>Cloudflare D1 (إنتاج) — PostgreSQL (بيئة المعاينة)</dd>
+                <dt>الفروع</dt><dd>الرياض · المدينة المنورة</dd>
+                <dt>مدة الجلسة</dt><dd>8 ساعات</dd>
+              </div>
+              <div>
+                <h3 style="font-size:.9rem;margin-bottom:.4rem">حالات الطلب</h3>
+                <div class="chips">
+                  <span class="badge new">جديد</span>
+                  <span class="badge under_review">قيد المراجعة</span>
+                  <span class="badge contacting">جارٍ التواصل</span>
+                  <span class="badge needs_documents">بانتظار مستندات</span>
+                  <span class="badge completed">مكتمل</span>
+                  <span class="badge closed">مغلق</span>
+                  <span class="badge cancelled">ملغي</span>
+                </div>
+              </div>
+            </div>
+          </section>
+
+          <section class="card" aria-label="بيانات المكتب">
+            <div class="card-head"><h2>بيانات المكتب</h2></div>
+            <div class="card-body">
+              <div class="kv">
+                <dt>الهاتف</dt><dd dir="ltr" style="text-align:start">0570004909</dd>
+                <dt>واتساب</dt><dd dir="ltr" style="text-align:start">+96657000409</dd>
+                <dt>الرياض</dt><dd>حي الملقا، طريق أنس بن مالك</dd>
+                <dt>المدينة</dt><dd>المدينة المنورة</dd>
+                <dt>العمل</dt><dd>الأحد – الأربعاء: 9:00 ص – 7:30 م</dd>
+              </div>
+              <p class="small muted" style="margin-top:.7rem">هذه البيانات معروضة للاطلاع؛ لتغيير بيانات التواصل في الموقع عدّل الصفحات الثابتة أو متغيرات الإعداد.</p>
+            </div>
+          </section>
+        </div>
+
+        <section class="card" data-owner-only hidden aria-label="إعدادات المالك">
+          <div class="card-head"><h2>إعدادات المالك والأمان</h2><span class="spacer"></span><a class="btn btn-line btn-sm" href="team.html"><span data-icon="users"></span> إدارة الفريق</a></div>
+          <div class="card-body stack" style="gap:.8rem">
+            <div class="notice info"><span data-icon="shield"></span><span>تُضبط كلمة مرور المالك الأولى ومفتاح توقيع الجلسات عبر متغيرات بيئة Cloudflare Pages، ولا تُكتب داخل ملفات الموقع. راجع ملف <b>README_DEPLOY.md</b> في المشروع للخطوات.</span></div>
+            <div class="kv">
+              <dt>ADMIN_USERNAME</dt><dd>اسم مستخدم المالك (افتراضي: admin)</dd>
+              <dt>ADMIN_PASSWORD_HASH</dt><dd>بصمة كلمة المرور بصيغة PBKDF2 (وليست كلمة المرور نفسها)</dd>
+              <dt>SESSION_SECRET</dt><dd>مفتاح توقيع الجلسات (32 حرفًا عشوائيًا على الأقل)</dd>
+              <dt>D1 binding</dt><dd><span class="code">DB</span> — قاعدة بيانات Cloudflare D1</dd>
+            </div>
+            <p class="small muted">إذا نُسيت كلمة مرور المالك، يمكن إعادة تعيينها بتحديث المتغير <span class="code">ADMIN_PASSWORD_HASH</span> في Cloudflare بعد توليد بصمة جديدة بالأمر الموضح في الدليل.</p>
+          </div>
+        </section>
+      </div>
+    </main>
+  </div>
+</div>
+<script src="assets/app.js"></script>
+<script>
+(function () {
+  "use strict";
+  var A = window.Admin;
+  function $(id) { return document.getElementById(id); }
+
+  (async function start() {
+    var context = await A.init();
+    if (!context) return;
+    var user = context.user;
+    $("acc-username").textContent = user.username;
+    $("acc-role").textContent = user.role === "owner" ? "مالك المكتب (صلاحية كاملة)" : "محامٍ / موظف";
+    $("role-badge").innerHTML = user.role === "owner" ? '<span class="badge owner">مالك المكتب</span>' : '<span class="badge lawyer">محامٍ / موظف</span>';
+    var scope = user.role === "owner"
+      ? "جميع الفروع وجميع الخدمات"
+      : "الفروع: " + (user.branches.length ? user.branches.join(" · ") : "كل الفروع") +
+        " — الخدمات: " + (user.services.length ? user.services.join(" · ") : "كل الخدمات") +
+        (user.canDelete ? " — يملك صلاحية الأرشفة" : " — بدون صلاحية حذف");
+    $("acc-scope").textContent = scope;
+
+    var form = $("password-form");
+    form.addEventListener("submit", async function (event) {
+      event.preventDefault();
+      var current = $("current-password");
+      var next = $("new-password");
+      var confirm = $("confirm-password");
+      var valid = true;
+      function mark(input, condition) {
+        input.closest(".field").classList.toggle("invalid", !condition);
+        if (!condition) valid = false;
+      }
+      mark(current, current.value.length > 0);
+      mark(next, next.value.length >= 10);
+      mark(confirm, confirm.value === next.value && confirm.value.length >= 10);
+      if (!valid) return;
+      var button = $("save-password");
+      button.disabled = true;
+      try {
+        var result = await A.API.post("/api/account/password", { currentPassword: current.value, newPassword: next.value });
+        A.toast(result.message || "تم تحديث كلمة المرور");
+        form.reset();
+      } catch (error) {
+        A.toast(error.message, "error");
+      } finally {
+        button.disabled = false;
+      }
+    });
+  })();
+})();
+</script>
+</body>
+</html>

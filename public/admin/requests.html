@@ -1,0 +1,442 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="robots" content="noindex,nofollow,noarchive,nosnippet">
+<meta name="referrer" content="no-referrer">
+<meta name="theme-color" content="#0B0B0C">
+<title>طلبات الاستشارة | لوحة تحكم راية القانون</title>
+<link rel="icon" href="../favicon.ico" sizes="any">
+<link rel="icon" type="image/png" sizes="32x32" href="../images/favicon-32.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=El+Messiri:wght@500;600;700&family=Tajawal:wght@400;500;700&display=swap">
+<link rel="stylesheet" href="assets/admin.css">
+</head>
+<body>
+<a class="skip-link" href="#main">تخطَّ إلى المحتوى</a>
+<div class="admin">
+  <aside class="sidebar" id="sidebar" aria-label="قائمة لوحة التحكم">
+    <div class="brand"><img src="../images/logo-rayat-alqanoon.png" alt="شعار راية القانون" width="308" height="322"><div><b>راية القانون</b><span>لوحة التحكم</span></div></div>
+    <nav class="side-nav">
+      <span class="label">الإدارة</span>
+      <a href="dashboard.html"><span data-icon="dashboard"></span><span>الرئيسية</span></a>
+      <a href="requests.html"><span data-icon="inbox"></span><span>طلبات الاستشارة</span></a>
+      <a href="team.html" data-owner-only hidden><span data-icon="users"></span><span>الفريق والصلاحيات</span></a>
+      <a href="reports.html"><span data-icon="chart"></span><span>التقارير</span></a>
+      <a href="settings.html"><span data-icon="gear"></span><span>الإعدادات</span></a>
+      <span class="label">الموقع</span>
+      <a href="../index.html" target="_blank" rel="noopener"><span data-icon="home"></span><span>عرض الموقع</span></a>
+    </nav>
+    <div class="side-foot">
+      <div><div class="who" data-user-name>—</div><div class="role" data-user-role>—</div></div>
+      <button class="btn btn-line btn-sm" type="button" data-logout><span data-icon="logout"></span><span>تسجيل الخروج</span></button>
+    </div>
+  </aside>
+  <div class="sidebar-scrim" aria-hidden="true"></div>
+  <div class="main">
+    <header class="topbar">
+      <button class="sidebar-toggle" type="button" aria-label="فتح القائمة" aria-expanded="false" aria-controls="sidebar"><span data-icon="menu"></span></button>
+      <div><h1>طلبات الاستشارة</h1><span class="sub">متابعة الطلبات الواردة وتحديث حالتها وإضافة الملاحظات</span></div>
+      <div class="topbar-actions">
+        <button class="icon-btn" type="button" id="refresh" aria-label="تحديث" title="تحديث"><span data-icon="refresh"></span></button>
+        <div class="avatar" data-user-initial>—</div>
+        <div class="user-chip"><b data-user-name>—</b><span data-user-role>—</span></div>
+      </div>
+    </header>
+
+    <main class="content" id="main">
+      <div class="stack">
+        <section class="card" aria-label="بحث وتصفية">
+          <div class="card-body">
+            <div class="toolbar">
+              <div class="field search-box">
+                <label for="q">بحث</label>
+                <span data-icon="search"></span>
+                <input id="q" type="search" placeholder="رقم المرجع، اسم العميل، أو رقم الجوال" autocomplete="off">
+              </div>
+              <div class="field"><label for="status">الحالة</label><select id="status"><option value="">كل الحالات</option></select></div>
+              <div class="field"><label for="branch">الفرع</label><select id="branch"><option value="">كل الفروع</option></select></div>
+              <div class="field"><label for="service">الخدمة</label><select id="service"><option value="">كل الخدمات</option></select></div>
+              <div class="field"><label for="from">من تاريخ</label><input id="from" type="date"></div>
+              <div class="field"><label for="to">إلى تاريخ</label><input id="to" type="date"></div>
+            </div>
+            <div class="inline-actions" style="margin-top:.85rem">
+              <button class="btn btn-line btn-sm" type="button" id="reset"><span data-icon="refresh"></span> إعادة تعيين</button>
+              <button class="btn btn-line btn-sm" type="button" id="export"><span data-icon="download"></span> تصدير النتائج CSV</button>
+              <span class="small muted" id="count" style="margin-inline-start:auto">—</span>
+            </div>
+          </div>
+        </section>
+
+        <section class="card" aria-label="قائمة الطلبات">
+          <div class="card-head"><h2>الطلبات</h2><span class="hint" id="scope-note"></span></div>
+          <div class="table-wrap">
+            <table class="data">
+              <thead>
+                <tr>
+                  <th>رقم المرجع</th><th>العميل</th><th>الجوال</th><th>الخدمة</th>
+                  <th>الفرع</th><th>التاريخ</th><th>الحالة</th><th style="text-align:end">إجراءات</th>
+                </tr>
+              </thead>
+              <tbody id="rows"><tr><td colspan="8" class="empty">جارٍ تحميل الطلبات…</td></tr></tbody>
+            </table>
+          </div>
+          <div class="card-body">
+            <div class="pagination">
+              <span class="small muted" id="page-info">—</span>
+              <div class="pages" id="pages"></div>
+            </div>
+          </div>
+        </section>
+      </div>
+    </main>
+  </div>
+</div>
+
+<div class="scrim" id="scrim" aria-hidden="true"></div>
+<aside class="drawer" id="drawer" role="dialog" aria-modal="true" aria-labelledby="drawer-title" aria-hidden="true">
+  <div class="drawer-head">
+    <h2 id="drawer-title">تفاصيل الطلب</h2>
+    <button class="icon-btn" type="button" id="drawer-close" aria-label="إغلاق"><span data-icon="x"></span></button>
+  </div>
+  <div class="drawer-body">
+    <div id="drawer-summary"></div>
+    <div>
+      <h3 style="font-size:.9rem;margin-bottom:.4rem">تفاصيل الاستشارة</h3>
+      <div class="detail-text" id="drawer-details">—</div>
+    </div>
+    <div class="card" style="box-shadow:none">
+      <div class="card-head"><h3 style="font-size:.9rem">تحديث حالة الطلب</h3></div>
+      <div class="card-body" style="display:grid;gap:.6rem">
+        <div class="field"><label for="status-select">الحالة الجديدة</label><select id="status-select"></select></div>
+        <button class="btn btn-gold btn-sm" type="button" id="save-status">حفظ الحالة</button>
+      </div>
+    </div>
+    <div class="card" style="box-shadow:none">
+      <div class="card-head"><h3 style="font-size:.9rem">ملاحظات داخلية</h3><span class="spacer"></span><span class="hint">لا تظهر للعميل</span></div>
+      <div class="card-body" style="display:grid;gap:.6rem">
+        <div class="notes" id="notes-list"></div>
+        <div class="field"><label for="note-input">ملاحظة جديدة</label><textarea id="note-input" maxlength="1000" placeholder="مثال: تم التواصل مع العميل وطلب مستندات إضافية…"></textarea></div>
+        <button class="btn btn-line btn-sm" type="button" id="add-note"><span data-icon="note"></span> إضافة الملاحظة</button>
+      </div>
+    </div>
+  </div>
+  <div class="drawer-foot">
+    <a class="btn btn-green btn-sm" id="drawer-wa" target="_blank" rel="noopener"><span data-icon="wa"></span> واتساب</a>
+    <a class="btn btn-line btn-sm" id="drawer-call"><span data-icon="phone"></span> اتصال</a>
+    <span style="flex:1"></span>
+    <button class="btn btn-line btn-sm" type="button" id="archive-btn"><span data-icon="archive"></span> أرشفة</button>
+    <button class="btn btn-danger btn-sm" type="button" id="delete-btn"><span data-icon="trash"></span> حذف</button>
+  </div>
+</aside>
+
+<script src="assets/app.js"></script>
+<script>
+(function () {
+  "use strict";
+  var A = window.Admin;
+  var state = { page: 1, pageSize: 10, items: [], user: null, meta: null, current: null };
+  var els = {};
+  function $(id) { return document.getElementById(id); }
+  function esc(v) { return A.escapeHtml(v); }
+
+  function options(list, placeholder, selected) {
+    var html = placeholder ? '<option value="">' + esc(placeholder) + "</option>" : "";
+    return html + list.map(function (item) {
+      var value = typeof item === "string" ? item : item.key;
+      var label = typeof item === "string" ? item : item.label;
+      return '<option value="' + esc(value) + '"' + (value === selected ? " selected" : "") + ">" + esc(label) + "</option>";
+    }).join("");
+  }
+
+  function query() {
+    var params = new URLSearchParams();
+    if (els.q.value.trim()) params.set("q", els.q.value.trim());
+    if (els.status.value) params.set("status", els.status.value);
+    if (els.branch.value) params.set("branch", els.branch.value);
+    if (els.service.value) params.set("service", els.service.value);
+    if (els.from.value) params.set("from", els.from.value);
+    if (els.to.value) params.set("to", els.to.value);
+    params.set("page", String(state.page));
+    params.set("pageSize", String(state.pageSize));
+    return params;
+  }
+
+  function syncUrl() {
+    var params = query();
+    params.delete("pageSize");
+    var qs = params.toString();
+    window.history.replaceState(null, "", qs ? "?" + qs : window.location.pathname);
+  }
+
+  function rowHtml(row) {
+    return "<tr>" +
+      '<td class="ref"><button class="btn btn-ghost btn-sm" type="button" data-open="' + row.id + '" style="padding:0;min-height:auto;font:inherit;color:inherit">' + esc(row.ref) + "</button></td>" +
+      '<td class="name">' + esc(row.full_name) +
+        (Number(row.notes_count) ? ' <span class="small muted" title="عدد الملاحظات">(' + esc(row.notes_count) + " ملاحظة)</span>" : "") + "</td>" +
+      '<td class="phone">' + esc(row.phone) + "</td>" +
+      "<td>" + esc(row.service) + "</td>" +
+      "<td>" + esc(row.branch) + "</td>" +
+      '<td class="small">' + esc(A.formatDate(row.created_at, true)) + "</td>" +
+      "<td>" + A.statusBadge(row.status) + "</td>" +
+      '<td><div class="actions">' +
+        '<button class="btn btn-line btn-sm" type="button" data-open="' + row.id + '">عرض</button>' +
+        (canDelete() ? '<button class="icon-btn" type="button" data-archive="' + row.id + '" aria-label="أرشفة الطلب"><span data-icon="archive"></span></button>' : "") +
+      "</div></td></tr>";
+  }
+
+  function canDelete() {
+    return state.user && (state.user.role === "owner" || state.user.canDelete);
+  }
+
+  function renderPages(pages) {
+    var wrap = $("pages");
+    var html = '<button class="page-btn" type="button" data-page="' + (state.page - 1) + '"' + (state.page <= 1 ? " disabled" : "") + ' aria-label="السابق">‹</button>';
+    var start = Math.max(1, state.page - 2);
+    var end = Math.min(pages, start + 4);
+    if (end - start < 4) start = Math.max(1, end - 4);
+    for (var i = start; i <= end; i += 1) {
+      html += '<button class="page-btn" type="button" data-page="' + i + '"' + (i === state.page ? ' aria-current="true"' : "") + ">" + i + "</button>";
+    }
+    html += '<button class="page-btn" type="button" data-page="' + (state.page + 1) + '"' + (state.page >= pages ? " disabled" : "") + ' aria-label="التالي">›</button>';
+    wrap.innerHTML = html;
+  }
+
+  async function load() {
+    var refresh = $("refresh");
+    refresh.disabled = true;
+    try {
+      var data = await A.API.get("/api/requests?" + query().toString());
+      state.items = data.items;
+      state.user = data.meta.user;
+      state.meta = data.meta;
+      $("count").textContent = data.total + " طلب";
+      var rows = $("rows");
+      if (!data.items.length) {
+        rows.innerHTML = '<tr><td colspan="8"><div class="empty">' + A.icon("inbox") +
+          "<div>لا توجد طلبات مطابقة للبحث الحالي.</div>" +
+          '<button class="btn btn-line btn-sm" type="button" id="clear-empty" style="margin-top:.7rem">مسح عوامل التصفية</button></div></td></tr>';
+        var clear = $("clear-empty");
+        if (clear) clear.addEventListener("click", reset);
+      } else {
+        rows.innerHTML = data.items.map(rowHtml).join("");
+      }
+      A.hydrateIcons(rows);
+      A.hydrateIcons($("pages"));
+      var from = data.total ? (data.page - 1) * data.pageSize + 1 : 0;
+      var to = Math.min(data.total, data.page * data.pageSize);
+      $("page-info").textContent = "عرض " + from + "–" + to + " من " + data.total;
+      renderPages(data.pages);
+      $("scope-note").textContent = state.user.role === "owner"
+        ? "صلاحية كاملة"
+        : "تظهر فقط الطلبات المصرح لك بها (" + (state.user.branches.length ? state.user.branches.join(" · ") : "كل الفروع") + ")";
+      syncUrl();
+    } catch (error) {
+      if (error.message !== "unauthorized") {
+        $("rows").innerHTML = '<tr><td colspan="8" class="empty">' + esc(error.message) + "</td></tr>";
+      }
+    } finally {
+      refresh.disabled = false;
+    }
+  }
+
+  function summary(row) {
+    return '<div class="kv">' +
+      "<dt>رقم المرجع</dt><dd><b>" + esc(row.ref) + "</b></dd>" +
+      "<dt>الحالة</dt><dd>" + A.statusBadge(row.status) + "</dd>" +
+      "<dt>العميل</dt><dd>" + esc(row.full_name) + "</dd>" +
+      "<dt>الجوال</dt><dd><a href=\"tel:" + esc(row.phone) + "\" style=\"color:var(--gold-d);font-weight:700\">" + esc(row.phone) + "</a></dd>" +
+      "<dt>الخدمة</dt><dd>" + esc(row.service) + "</dd>" +
+      "<dt>الفرع</dt><dd>" + esc(row.branch) + "</dd>" +
+      "<dt>تاريخ الطلب</dt><dd>" + esc(A.formatDate(row.created_at, true)) + "</dd>" +
+      "<dt>آخر تحديث</dt><dd>" + esc(A.formatDate(row.updated_at, true)) + "</dd>" +
+      "</div>";
+  }
+
+  function renderNotes(notes) {
+    var list = $("notes-list");
+    if (!notes || !notes.length) {
+      list.innerHTML = '<p class="small muted">لا توجد ملاحظات داخلية بعد.</p>';
+      return;
+    }
+    list.innerHTML = notes.map(function (note) {
+      return '<div class="note"><b>' + esc(note.author) + "</b><time>" + esc(A.formatDate(note.created_at, true)) + "</time><div>" + esc(note.body) + "</div></div>";
+    }).join("");
+  }
+
+  async function openDrawer(id) {
+    try {
+      var data = await A.API.get("/api/requests/" + id);
+      var row = data.request;
+      state.current = row;
+      $("drawer-title").textContent = "الطلب " + row.ref;
+      $("drawer-summary").innerHTML = summary(row);
+      $("drawer-details").textContent = row.details || "—";
+      $("status-select").value = row.status;
+      renderNotes(row.notes);
+      $("note-input").value = "";
+      var wa = $("drawer-wa");
+      wa.href = "https://wa.me/" + A.phoneIntl(row.phone) + "?text=" +
+        encodeURIComponent("السلام عليكم " + row.full_name + "، بخصوص طلبكم رقم " + row.ref + " في شركة راية القانون.");
+      $("drawer-call").href = "tel:" + row.phone;
+      $("archive-btn").hidden = !canDelete();
+      $("delete-btn").hidden = !(state.user && state.user.role === "owner");
+      A.hydrateIcons($("drawer"));
+      $("drawer").classList.add("open");
+      $("scrim").classList.add("open");
+      $("drawer").setAttribute("aria-hidden", "false");
+      $("drawer-close").focus({ preventScroll: true });
+    } catch (error) {
+      if (error.message !== "unauthorized") A.toast(error.message, "error");
+    }
+  }
+
+  function closeDrawer() {
+    $("drawer").classList.remove("open");
+    $("scrim").classList.remove("open");
+    $("drawer").setAttribute("aria-hidden", "true");
+    state.current = null;
+  }
+
+  function reset() {
+    ["q", "status", "branch", "service", "from", "to"].forEach(function (id) { $(id).value = ""; });
+    state.page = 1;
+    load();
+  }
+
+  (async function start() {
+    els = { q: $("q"), status: $("status"), branch: $("branch"), service: $("service"), from: $("from"), to: $("to") };
+    var context = await A.init();
+    if (!context) return;
+    state.user = context.user;
+
+    // Populate filters and the status select from the server-side catalog.
+    try {
+      var bootstrap = await A.API.get("/api/requests?page=1&pageSize=5");
+      state.meta = bootstrap.meta;
+      $("status").innerHTML = options(state.meta.statuses, "كل الحالات");
+      $("branch").innerHTML = options(state.meta.branches, "كل الفروع");
+      $("service").innerHTML = options(state.meta.services, "كل الخدمات");
+      $("status-select").innerHTML = options(state.meta.statuses, "", "new");
+    } catch (error) {
+      if (error.message !== "unauthorized") A.toast(error.message, "error");
+    }
+
+    var params = new URLSearchParams(window.location.search);
+    els.q.value = params.get("q") || "";
+    els.status.value = params.get("status") || "";
+    els.branch.value = params.get("branch") || "";
+    els.service.value = params.get("service") || "";
+    els.from.value = params.get("from") || "";
+    els.to.value = params.get("to") || "";
+    state.page = Math.max(1, Number(params.get("page") || 1));
+
+    await load();
+
+    var focus = params.get("focus");
+    if (focus) openDrawer(Number(focus));
+
+    els.q.addEventListener("input", A.debounce(function () { state.page = 1; load(); }, 400));
+    ["status", "branch", "service", "from", "to"].forEach(function (id) {
+      els[id].addEventListener("change", function () { state.page = 1; load(); });
+    });
+    $("reset").addEventListener("click", reset);
+    $("refresh").addEventListener("click", load);
+    $("export").addEventListener("click", async function () {
+      var exportParams = query();
+      exportParams.delete("page");
+      exportParams.delete("pageSize");
+      try { await A.API.download("/api/export?" + exportParams.toString()); A.toast("تم تجهيز ملف CSV"); }
+      catch (error) { A.toast(error.message, "error"); }
+    });
+
+    $("rows").addEventListener("click", async function (event) {
+      var open = event.target.closest("[data-open]");
+      if (open) { openDrawer(Number(open.getAttribute("data-open"))); return; }
+      var archive = event.target.closest("[data-archive]");
+      if (archive) {
+        var ok = await A.confirmDialog({ title: "أرشفة الطلب", message: "سيُخفى الطلب من القائمة مع بقاء بياناته في قاعدة البيانات. هل تريد المتابعة؟", confirmText: "أرشفة", danger: true });
+        if (!ok) return;
+        try {
+          await A.API.del("/api/requests/" + archive.getAttribute("data-archive"));
+          A.toast("تمت أرشفة الطلب");
+          load();
+        } catch (error) { A.toast(error.message, "error"); }
+      }
+    });
+
+    $("pages").addEventListener("click", function (event) {
+      var button = event.target.closest("[data-page]");
+      if (!button) return;
+      var page = Number(button.getAttribute("data-page"));
+      if (!page || button.disabled) return;
+      state.page = page;
+      load();
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    });
+
+    $("drawer-close").addEventListener("click", closeDrawer);
+    $("scrim").addEventListener("click", closeDrawer);
+    document.addEventListener("keydown", function (event) { if (event.key === "Escape") closeDrawer(); });
+
+    $("save-status").addEventListener("click", async function () {
+      if (!state.current) return;
+      var button = $("save-status");
+      button.disabled = true;
+      try {
+        var data = await A.API.patch("/api/requests/" + state.current.id, { status: $("status-select").value });
+        state.current = data.request;
+        $("drawer-summary").innerHTML = summary(data.request);
+        A.toast("تم تحديث حالة الطلب");
+        load();
+      } catch (error) { A.toast(error.message, "error"); }
+      finally { button.disabled = false; }
+    });
+
+    $("add-note").addEventListener("click", async function () {
+      if (!state.current) return;
+      var note = $("note-input").value.trim();
+      if (!note) { A.toast("يرجى كتابة الملاحظة أولًا", "error"); return; }
+      var button = $("add-note");
+      button.disabled = true;
+      try {
+        var data = await A.API.patch("/api/requests/" + state.current.id, { note: note });
+        state.current = data.request;
+        renderNotes(data.request.notes);
+        $("note-input").value = "";
+        A.toast("تمت إضافة الملاحظة");
+        load();
+      } catch (error) { A.toast(error.message, "error"); }
+      finally { button.disabled = false; }
+    });
+
+    $("archive-btn").addEventListener("click", async function () {
+      if (!state.current) return;
+      var ok = await A.confirmDialog({ title: "أرشفة الطلب", message: "سيُخفى الطلب من القائمة مع بقاء بياناته محفوظة. هل تريد المتابعة؟", confirmText: "أرشفة", danger: true });
+      if (!ok) return;
+      try {
+        await A.API.del("/api/requests/" + state.current.id);
+        closeDrawer();
+        A.toast("تمت أرشفة الطلب");
+        load();
+      } catch (error) { A.toast(error.message, "error"); }
+    });
+
+    $("delete-btn").addEventListener("click", async function () {
+      if (!state.current) return;
+      var ok = await A.confirmDialog({ title: "حذف الطلب نهائيًا", message: "سيتم حذف الطلب وملاحظاته نهائيًا ولا يمكن استعادته. هل أنت متأكد؟", confirmText: "حذف نهائي", danger: true });
+      if (!ok) return;
+      try {
+        await A.API.del("/api/requests/" + state.current.id + "?hard=1");
+        closeDrawer();
+        A.toast("تم حذف الطلب");
+        load();
+      } catch (error) { A.toast(error.message, "error"); }
+    });
+  })();
+})();
+</script>
+</body>
+</html>

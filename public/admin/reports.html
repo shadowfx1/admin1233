@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="robots" content="noindex,nofollow,noarchive,nosnippet">
+<meta name="referrer" content="no-referrer">
+<meta name="theme-color" content="#0B0B0C">
+<title>التقارير | لوحة تحكم راية القانون</title>
+<link rel="icon" href="../favicon.ico" sizes="any">
+<link rel="icon" type="image/png" sizes="32x32" href="../images/favicon-32.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=El+Messiri:wght@500;600;700&family=Tajawal:wght@400;500;700&display=swap">
+<link rel="stylesheet" href="assets/admin.css">
+</head>
+<body>
+<a class="skip-link" href="#main">تخطَّ إلى المحتوى</a>
+<div class="admin">
+  <aside class="sidebar" id="sidebar" aria-label="قائمة لوحة التحكم">
+    <div class="brand"><img src="../images/logo-rayat-alqanoon.png" alt="شعار راية القانون" width="308" height="322"><div><b>راية القانون</b><span>لوحة التحكم</span></div></div>
+    <nav class="side-nav">
+      <span class="label">الإدارة</span>
+      <a href="dashboard.html"><span data-icon="dashboard"></span><span>الرئيسية</span></a>
+      <a href="requests.html"><span data-icon="inbox"></span><span>طلبات الاستشارة</span></a>
+      <a href="team.html" data-owner-only hidden><span data-icon="users"></span><span>الفريق والصلاحيات</span></a>
+      <a href="reports.html"><span data-icon="chart"></span><span>التقارير</span></a>
+      <a href="settings.html"><span data-icon="gear"></span><span>الإعدادات</span></a>
+      <span class="label">الموقع</span>
+      <a href="../index.html" target="_blank" rel="noopener"><span data-icon="home"></span><span>عرض الموقع</span></a>
+    </nav>
+    <div class="side-foot">
+      <div><div class="who" data-user-name>—</div><div class="role" data-user-role>—</div></div>
+      <button class="btn btn-line btn-sm" type="button" data-logout><span data-icon="logout"></span><span>تسجيل الخروج</span></button>
+    </div>
+  </aside>
+  <div class="sidebar-scrim" aria-hidden="true"></div>
+  <div class="main">
+    <header class="topbar">
+      <button class="sidebar-toggle" type="button" aria-label="فتح القائمة" aria-expanded="false" aria-controls="sidebar"><span data-icon="menu"></span></button>
+      <div><h1>التقارير</h1><span class="sub">إحصاءات الطلبات وتصدير البيانات</span></div>
+      <div class="topbar-actions">
+        <div class="avatar" data-user-initial>—</div>
+        <div class="user-chip"><b data-user-name>—</b><span data-user-role>—</span></div>
+      </div>
+    </header>
+
+    <main class="content" id="main">
+      <div class="stack">
+        <section class="card" aria-label="تصدير البيانات">
+          <div class="card-head"><h2>تصدير البيانات</h2><span class="spacer"></span><span class="hint">ملف CSV يفتح في Excel</span></div>
+          <div class="card-body">
+            <div class="toolbar">
+              <div class="field"><label for="x-status">الحالة</label><select id="x-status"><option value="">كل الحالات</option></select></div>
+              <div class="field"><label for="x-branch">الفرع</label><select id="x-branch"><option value="">كل الفروع</option></select></div>
+              <div class="field"><label for="x-service">الخدمة</label><select id="x-service"><option value="">كل الخدمات</option></select></div>
+              <div class="field"><label for="x-from">من تاريخ</label><input id="x-from" type="date"></div>
+              <div class="field"><label for="x-to">إلى تاريخ</label><input id="x-to" type="date"></div>
+            </div>
+            <div class="inline-actions" style="margin-top:.85rem">
+              <button class="btn btn-gold btn-sm" type="button" id="export-filtered"><span data-icon="download"></span> تصدير حسب التصفية</button>
+              <button class="btn btn-line btn-sm" type="button" id="export-all"><span data-icon="download"></span> تصدير كل الطلبات</button>
+            </div>
+            <p class="small muted" style="margin-top:.6rem">يشمل التصدير رقم المرجع، بيانات العميل، الخدمة، الفرع، الحالة، التواريخ، تفاصيل الاستشارة والملاحظات الداخلية.</p>
+          </div>
+        </section>
+
+        <div class="split-2">
+          <section class="card" aria-label="توزيع الطلبات حسب الحالة">
+            <div class="card-head"><h2>توزيع الطلبات حسب الحالة</h2><span class="spacer"></span><span class="hint" id="total-hint">—</span></div>
+            <div class="card-body"><div class="rank" id="status-rank"></div></div>
+          </section>
+          <section class="card" aria-label="توزيع الطلبات حسب الفرع">
+            <div class="card-head"><h2>الطلبات حسب الفرع</h2></div>
+            <div class="card-body">
+              <div class="stats" id="branch-stats" style="grid-template-columns:1fr"></div>
+            </div>
+          </section>
+        </div>
+
+        <div class="split-2">
+          <section class="card" aria-label="حركة الطلبات">
+            <div class="card-head"><h2>حركة الطلبات — آخر 7 أيام</h2><span class="spacer"></span><span class="hint" id="week-total">—</span></div>
+            <div class="card-body"><div class="chart" id="week-chart"></div></div>
+          </section>
+          <section class="card" aria-label="الخدمات الأكثر طلبًا">
+            <div class="card-head"><h2>الخدمات الأكثر طلبًا</h2></div>
+            <div class="card-body"><div class="rank" id="service-rank"></div></div>
+          </section>
+        </div>
+
+        <section class="card" aria-label="ملاحظة">
+          <div class="card-body">
+            <div class="notice"><span data-icon="alert"></span><span>الأرقام المعروضة محسوبة فقط على الطلبات المتاحة لصلاحيات حسابك الحالي. عند تصدير البيانات، تُطبَّق الصلاحيات نفسها على الملف المُصدَّر.</span></div>
+          </div>
+        </section>
+      </div>
+    </main>
+  </div>
+</div>
+<script src="assets/app.js"></script>
+<script>
+(function () {
+  "use strict";
+  var A = window.Admin;
+  function $(id) { return document.getElementById(id); }
+  function esc(v) { return A.escapeHtml(v); }
+
+  function options(list, placeholder) {
+    return '<option value="">' + esc(placeholder) + "</option>" + list.map(function (item) {
+      var value = typeof item === "string" ? item : item.key;
+      var label = typeof item === "string" ? item : item.label;
+      return '<option value="' + esc(value) + '">' + esc(label) + "</option>";
+    }).join("");
+  }
+
+  function render(data) {
+    $("total-hint").textContent = "الإجمالي: " + data.total;
+    var rank = $("status-rank");
+    if (!data.total) {
+      rank.innerHTML = '<p class="small muted">لا توجد طلبات بعد.</p>';
+    } else {
+      rank.innerHTML = A.STATUS_ORDER.map(function (key) {
+        var meta = A.STATUS[key];
+        var count = (data.byStatus && data.byStatus[key]) || 0;
+        var width = Math.round((count / data.total) * 100);
+        return '<div class="row"><span class="name">' + A.statusBadge(key) + "</span>" +
+          '<span class="track"><i style="width:' + width + '%"></i></span><b>' + count + "</b></div>";
+      }).join("");
+    }
+
+    $("branch-stats").innerHTML = A.BRANCHES.map(function (branch) {
+      var count = (data.byBranch && data.byBranch[branch]) || 0;
+      return '<div class="stat"><span class="k">' + esc(branch) + '</span><span class="v">' + count + "</span></div>";
+    }).join("");
+
+    var chart = $("week-chart");
+    var max = Math.max.apply(null, data.week.map(function (d) { return d.count; }).concat([1]));
+    chart.innerHTML = data.week.map(function (day) {
+      var height = Math.round((day.count / max) * 92);
+      var label = new Date(day.date + "T12:00:00Z").toLocaleDateString("ar-SA-u-ca-gregory-nu-latn", { weekday: "short" });
+      return '<div class="bar" title="' + esc(day.date) + " — " + day.count + ' طلب"><i style="height:' + Math.max(height, 4) + 'px"></i><em>' + esc(label) + "</em></div>";
+    }).join("");
+    $("week-total").textContent = data.week.reduce(function (sum, d) { return sum + d.count; }, 0) + " طلبًا";
+
+    var serviceRank = $("service-rank");
+    if (!data.byService.length) {
+      serviceRank.innerHTML = '<p class="small muted">لا توجد بيانات كافية بعد.</p>';
+    } else {
+      var maxService = Math.max.apply(null, data.byService.map(function (s) { return s.count; }));
+      serviceRank.innerHTML = data.byService.map(function (item) {
+        var width = Math.round((item.count / maxService) * 100);
+        return '<div class="row"><span class="name" title="' + esc(item.service) + '">' + esc(item.service) + "</span>" +
+          '<span class="track"><i style="width:' + width + '%"></i></span><b>' + item.count + "</b></div>";
+      }).join("");
+    }
+  }
+
+  function exportParams() {
+    var params = new URLSearchParams();
+    if ($("x-status").value) params.set("status", $("x-status").value);
+    if ($("x-branch").value) params.set("branch", $("x-branch").value);
+    if ($("x-service").value) params.set("service", $("x-service").value);
+    if ($("x-from").value) params.set("from", $("x-from").value);
+    if ($("x-to").value) params.set("to", $("x-to").value);
+    return params;
+  }
+
+  (async function start() {
+    var context = await A.init();
+    if (!context) return;
+    try {
+      var data = await A.API.get("/api/stats");
+      var statusList = A.STATUS_ORDER.map(function (key) {
+        return { key: key, label: A.STATUS[key].label };
+      });
+      $("x-status").innerHTML = options(statusList, "كل الحالات");
+      $("x-branch").innerHTML = options(A.BRANCHES, "كل الفروع");
+      $("x-service").innerHTML = options(A.SERVICES, "كل الخدمات");
+      render(data);
+    } catch (error) {
+      if (error.message !== "unauthorized") A.toast(error.message, "error");
+    }
+
+    $("export-filtered").addEventListener("click", async function () {
+      var params = exportParams();
+      try { await A.API.download("/api/export" + (params.toString() ? "?" + params.toString() : "")); A.toast("تم تجهيز ملف CSV"); }
+      catch (error) { A.toast(error.message, "error"); }
+    });
+    $("export-all").addEventListener("click", async function () {
+      try { await A.API.download("/api/export"); A.toast("تم تجهيز ملف CSV"); }
+      catch (error) { A.toast(error.message, "error"); }
+    });
+  })();
+})();
+</script>
+</body>
+</html>

@@ -1,0 +1,334 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="robots" content="noindex,nofollow,noarchive,nosnippet">
+<meta name="referrer" content="no-referrer">
+<meta name="theme-color" content="#0B0B0C">
+<title>الفريق والصلاحيات | لوحة تحكم راية القانون</title>
+<link rel="icon" href="../favicon.ico" sizes="any">
+<link rel="icon" type="image/png" sizes="32x32" href="../images/favicon-32.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=El+Messiri:wght@500;600;700&family=Tajawal:wght@400;500;700&display=swap">
+<link rel="stylesheet" href="assets/admin.css">
+</head>
+<body>
+<a class="skip-link" href="#main">تخطَّ إلى المحتوى</a>
+<div class="admin">
+  <aside class="sidebar" id="sidebar" aria-label="قائمة لوحة التحكم">
+    <div class="brand"><img src="../images/logo-rayat-alqanoon.png" alt="شعار راية القانون" width="308" height="322"><div><b>راية القانون</b><span>لوحة التحكم</span></div></div>
+    <nav class="side-nav">
+      <span class="label">الإدارة</span>
+      <a href="dashboard.html"><span data-icon="dashboard"></span><span>الرئيسية</span></a>
+      <a href="requests.html"><span data-icon="inbox"></span><span>طلبات الاستشارة</span></a>
+      <a href="team.html" data-owner-only hidden><span data-icon="users"></span><span>الفريق والصلاحيات</span></a>
+      <a href="reports.html"><span data-icon="chart"></span><span>التقارير</span></a>
+      <a href="settings.html"><span data-icon="gear"></span><span>الإعدادات</span></a>
+      <span class="label">الموقع</span>
+      <a href="../index.html" target="_blank" rel="noopener"><span data-icon="home"></span><span>عرض الموقع</span></a>
+    </nav>
+    <div class="side-foot">
+      <div><div class="who" data-user-name>—</div><div class="role" data-user-role>—</div></div>
+      <button class="btn btn-line btn-sm" type="button" data-logout><span data-icon="logout"></span><span>تسجيل الخروج</span></button>
+    </div>
+  </aside>
+  <div class="sidebar-scrim" aria-hidden="true"></div>
+  <div class="main">
+    <header class="topbar">
+      <button class="sidebar-toggle" type="button" aria-label="فتح القائمة" aria-expanded="false" aria-controls="sidebar"><span data-icon="menu"></span></button>
+      <div><h1>الفريق والصلاحيات</h1><span class="sub">إنشاء حسابات المحامين وتحديد ما يمكنهم الوصول إليه</span></div>
+      <div class="topbar-actions">
+        <div class="avatar" data-user-initial>—</div>
+        <div class="user-chip"><b data-user-name>—</b><span data-user-role>—</span></div>
+      </div>
+    </header>
+
+    <main class="content" id="main">
+      <div class="stack">
+        <div class="card">
+          <div class="card-head"><h2>حساب مالك المكتب</h2><span class="spacer"></span><span class="badge owner">صلاحية كاملة</span></div>
+          <div class="card-body">
+            <div class="split-2">
+              <div class="kv">
+                <dt>اسم المستخدم</dt><dd><span class="code" id="owner-username">—</span></dd>
+                <dt>الصلاحية</dt><dd>جميع الفروع وجميع الخدمات، وإنشاء الحسابات وحذف الطلبات نهائيًا</dd>
+              </div>
+              <div class="notice info">
+                <span data-icon="lock"></span>
+                <span>لتغيير كلمة مرور المالك، استخدم صفحة <a href="settings.html" style="color:inherit;text-decoration:underline;font-weight:700">الإعدادات</a>. لا تُخزَّن كلمات المرور كنص صريح في الموقع.</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <section class="card" aria-label="حسابات الفريق">
+          <div class="card-head">
+            <h2>حسابات الفريق</h2>
+            <span class="spacer"></span>
+            <button class="btn btn-gold btn-sm" type="button" id="add-member"><span data-icon="plus"></span> إضافة حساب</button>
+          </div>
+          <div class="table-wrap">
+            <table class="data">
+              <thead><tr><th>الاسم</th><th>اسم المستخدم</th><th>الصلاحيات</th><th>الحالة</th><th>آخر دخول</th><th style="text-align:end">إجراءات</th></tr></thead>
+              <tbody id="rows"><tr><td colspan="6" class="empty">جارٍ التحميل…</td></tr></tbody>
+            </table>
+          </div>
+          <div class="card-body"><p class="small muted">تُسجَّل عمليات إنشاء الحسابات وتعديل الصلاحيات في سجل التدقيق. تُعرض كلمة المرور المؤقتة مرة واحدة فقط بعد إنشائها.</p></div>
+        </section>
+      </div>
+    </main>
+  </div>
+</div>
+
+<div class="modal" id="member-modal">
+  <div class="modal-panel" role="dialog" aria-modal="true" aria-labelledby="member-title">
+    <div class="modal-head">
+      <h2 id="member-title">إضافة حساب</h2>
+      <button class="icon-btn" type="button" data-close aria-label="إغلاق"><span data-icon="x"></span></button>
+    </div>
+    <div class="modal-body">
+      <div id="member-result" hidden></div>
+      <div id="member-fields">
+      <div class="field" id="name-field" style="margin-bottom:.75rem">
+        <label for="m-name">الاسم الكامل</label>
+        <input id="m-name" type="text" maxlength="80" placeholder="مثال: عبدالله بن محمد">
+        <span class="err">يرجى إدخال الاسم الكامل</span>
+      </div>
+      <div id="create-only">
+        <div class="field" style="margin-bottom:.75rem">
+          <label for="m-username">اسم المستخدم (اختياري)</label>
+          <input id="m-username" type="text" dir="ltr" maxlength="32" placeholder="lawyer-name" autocomplete="off" spellcheck="false">
+          <span class="small muted">حروف إنجليزية وأرقام فقط. إن تركته فارغًا سيُولَّد تلقائيًا.</span>
+        </div>
+        <div class="field" style="margin-bottom:.75rem">
+          <label for="m-password">كلمة المرور المؤقتة (اختياري)</label>
+          <input id="m-password" type="text" dir="ltr" maxlength="128" placeholder="تُولَّد تلقائيًا إن تُركت فارغة" autocomplete="off" spellcheck="false">
+        </div>
+      </div>
+      <div class="field" style="margin-bottom:.6rem">
+        <label>الفروع المسموحة</label>
+        <div class="checks" id="m-branches"></div>
+      </div>
+      <div class="field" style="margin-bottom:.6rem">
+        <label>الخدمات المسموحة</label>
+        <div class="checks" id="m-services"></div>
+      </div>
+      <label class="check"><input type="checkbox" id="m-canDelete"> السماح بأرشفة الطلبات</label>
+      <label class="check" id="active-row" hidden><input type="checkbox" id="m-active" checked> الحساب مفعّل</label>
+      <p class="small muted" style="margin-top:.6rem">إذا لم تحدد أي فرع أو خدمة، فسيصل الحساب إلى جميع الطلبات داخل نطاقه.</p>
+      </div>
+    </div>
+    <div class="modal-foot">
+      <button class="btn btn-line" type="button" data-close>إلغاء</button>
+      <button class="btn btn-gold" type="button" id="m-save">حفظ</button>
+    </div>
+  </div>
+</div>
+
+<script src="assets/app.js"></script>
+<script>
+(function () {
+  "use strict";
+  var A = window.Admin;
+  var state = { meta: null, members: [], mode: "create", editing: null };
+  function $(id) { return document.getElementById(id); }
+  function esc(v) { return A.escapeHtml(v); }
+
+  function checkboxes(container, values, selected) {
+    container.innerHTML = values.map(function (value) {
+      var id = "chk-" + Math.random().toString(36).slice(2, 7);
+      return '<label class="check" for="' + id + '"><input type="checkbox" id="' + id + '" value="' + esc(value) + '"' +
+        (selected.indexOf(value) >= 0 ? " checked" : "") + ">" + esc(value) + "</label>";
+    }).join("");
+  }
+  function selected(container) {
+    return [].slice.call(container.querySelectorAll("input:checked")).map(function (input) { return input.value; });
+  }
+
+  function permissionChips(member) {
+    var branches = member.branches.length ? member.branches.join(" · ") : "كل الفروع";
+    var services = member.services.length ? member.services.length + " خدمة محددة" : "كل الخدمات";
+    var icon = A.icon("eye");
+    return '<span class="chip">' + icon + "<span>" + esc(branches) + '</span></span><span class="chip">' + icon + "<span>" + esc(services) + "</span></span>";
+  }
+
+  function render() {
+    var rows = $("rows");
+    if (!state.members.length) {
+      rows.innerHTML = '<tr><td colspan="6"><div class="empty">' + A.icon("users") + "<div>لا توجد حسابات إضافية بعد. أضف حسابًا لأحد المحامين لتتمكن من متابعة الطلبات.</div></div></td></tr>";
+      return;
+    }
+    rows.innerHTML = state.members.map(function (member) {
+      return "<tr>" +
+        '<td class="name">' + esc(member.fullName) + "</td>" +
+        '<td class="phone">' + esc(member.username) + "</td>" +
+        "<td><div class=\"chips\">" + permissionChips(member) + "</div></td>" +
+        "<td>" + (member.active ? '<span class="badge completed">مفعّل</span>' : '<span class="badge closed">موقوف</span>') + "</td>" +
+        '<td class="small">' + esc(A.formatDate(member.lastLogin, true)) + "</td>" +
+        '<td><div class="actions">' +
+          '<button class="icon-btn" type="button" data-edit="' + member.id + '" aria-label="تعديل الصلاحيات" title="تعديل"><span data-icon="edit"></span></button>' +
+          '<button class="icon-btn" type="button" data-reset="' + member.id + '" aria-label="إعادة تعيين كلمة المرور" title="إعادة تعيين كلمة المرور"><span data-icon="key"></span></button>' +
+          '<button class="icon-btn" type="button" data-delete="' + member.id + '" aria-label="حذف الحساب" title="حذف"><span data-icon="trash"></span></button>' +
+        "</div></td></tr>";
+    }).join("");
+    A.hydrateIcons(rows);
+  }
+
+  async function load() {
+    try {
+      var data = await A.API.get("/api/team");
+      state.members = data.members;
+      state.meta = data.meta;
+      $("owner-username").textContent = data.owner.username;
+      render();
+    } catch (error) {
+      if (error.message !== "unauthorized") {
+        $("rows").innerHTML = '<tr><td colspan="6" class="empty">' + esc(error.message) + "</td></tr>";
+      }
+    }
+  }
+
+  function openModal(mode, member) {
+    state.mode = mode;
+    state.editing = member || null;
+    $("member-title").textContent = mode === "create" ? "إضافة حساب جديد" : "تعديل حساب " + (member ? member.fullName : "");
+    $("create-only").hidden = mode !== "create";
+    $("active-row").hidden = mode !== "edit";
+    $("member-result").hidden = true;
+    $("member-fields").hidden = false;
+    $("m-save").hidden = false;
+    $("m-name").value = member ? member.fullName : "";
+    $("m-username").value = "";
+    $("m-password").value = "";
+    $("m-canDelete").checked = member ? member.canDelete : false;
+    $("m-active").checked = member ? member.active : true;
+    checkboxes($("m-branches"), state.meta.branches, member ? member.branches : []);
+    checkboxes($("m-services"), state.meta.services, member ? member.services : []);
+    $("member-modal").classList.add("open");
+    $("m-name").focus({ preventScroll: true });
+  }
+
+  function closeModal() { $("member-modal").classList.remove("open"); }
+
+  function credentialBox(title, username, password) {
+    return '<div class="notice" style="margin-bottom:1rem;background:#f1f9f3;border-color:#c4e6d2;color:#1d5131;display:grid;gap:.5rem">' +
+      "<div><b>" + esc(title) + "</b></div>" +
+      '<div class="creds"><div><b>اسم المستخدم</b><span class="code" id="cred-user">' + esc(username) + "</span></div>" +
+      '<button class="icon-btn" type="button" data-copy="cred-user" aria-label="نسخ اسم المستخدم">' + A.icon("note") + "</button></div>" +
+      (password ? '<div class="creds"><div><b>كلمة المرور المؤقتة</b><span class="code" id="cred-pass">' + esc(password) + "</span></div>" +
+      '<button class="icon-btn" type="button" data-copy="cred-pass" aria-label="نسخ كلمة المرور">' + A.icon("note") + "</button></div>" : "") +
+      '<div class="small">تُعرض كلمة المرور مرة واحدة فقط. اطلب من الموظف تغييرها من صفحة الإعدادات بعد أول دخول.</div></div>';
+  }
+
+  (async function start() {
+    var context = await A.init({ ownerOnly: true });
+    if (!context || context.restricted) return;
+    await load();
+
+    $("add-member").addEventListener("click", function () { openModal("create"); });
+    document.querySelectorAll("#member-modal [data-close]").forEach(function (button) {
+      button.addEventListener("click", closeModal);
+    });
+    $("member-modal").addEventListener("click", function (event) {
+      if (event.target === $("member-modal")) closeModal();
+    });
+    document.addEventListener("keydown", function (event) {
+      if (event.key === "Escape") closeModal();
+    });
+
+    $("member-result").addEventListener("click", async function (event) {
+      var copy = event.target.closest("[data-copy]");
+      if (!copy) return;
+      var target = $(copy.getAttribute("data-copy"));
+      if (!target) return;
+      try {
+        await navigator.clipboard.writeText(target.textContent.trim());
+        A.toast("تم النسخ");
+      } catch (error) {
+        A.toast("تعذر النسخ تلقائيًا، يرجى تحديد النص ونسخه يدويًا", "error");
+      }
+    });
+
+    $("m-save").addEventListener("click", async function () {
+      var button = $("m-save");
+      var name = $("m-name").value.trim();
+      var field = $("name-field");
+      field.classList.toggle("invalid", name.length < 3);
+      if (name.length < 3) { $("m-name").focus(); return; }
+      var body = {
+        fullName: name,
+        branches: selected($("m-branches")),
+        services: selected($("m-services")),
+        canDelete: $("m-canDelete").checked,
+      };
+      button.disabled = true;
+      try {
+        if (state.mode === "create") {
+          if ($("m-username").value.trim()) body.username = $("m-username").value.trim().toLowerCase();
+          if ($("m-password").value.trim()) body.password = $("m-password").value.trim();
+          var created = await A.API.post("/api/team", body);
+          $("member-result").innerHTML = credentialBox("تم إنشاء الحساب بنجاح", created.member.username, created.tempPassword);
+          $("member-result").hidden = false;
+          $("create-only").hidden = true;
+          A.toast("تم إنشاء الحساب");
+        } else {
+          body.active = $("m-active").checked;
+          await A.API.patch("/api/team/" + state.editing.id, body);
+          A.toast("تم تحديث الصلاحيات");
+          closeModal();
+        }
+        await load();
+      } catch (error) {
+        A.toast(error.message, "error");
+      } finally {
+        button.disabled = false;
+      }
+    });
+
+    $("rows").addEventListener("click", async function (event) {
+      var edit = event.target.closest("[data-edit]");
+      var reset = event.target.closest("[data-reset]");
+      var remove = event.target.closest("[data-delete]");
+      var member;
+      if (edit) {
+        member = state.members.find(function (m) { return m.id === Number(edit.getAttribute("data-edit")); });
+        if (member) openModal("edit", member);
+        return;
+      }
+      if (reset) {
+        member = state.members.find(function (m) { return m.id === Number(reset.getAttribute("data-reset")); });
+        if (!member) return;
+        var okReset = await A.confirmDialog({ title: "إعادة تعيين كلمة المرور", message: "سيتم توليد كلمة مرور مؤقتة جديدة لحساب " + member.fullName + " وإلغاء القديمة.", confirmText: "إعادة التعيين" });
+        if (!okReset) return;
+        try {
+          var generated = "Raya-" + Math.random().toString(36).slice(2, 8) + "-" + (Math.floor(Math.random() * 90) + 10);
+          var result = await A.API.patch("/api/team/" + member.id, { password: generated });
+          $("member-result").innerHTML = credentialBox("تم تعيين كلمة مرور مؤقتة", member.username, result.tempPassword || generated);
+          $("member-result").hidden = false;
+          $("create-only").hidden = true;
+          $("active-row").hidden = true;
+          state.mode = "reset";
+          state.editing = member;
+          $("member-title").textContent = "كلمة المرور المؤقتة";
+          $("member-fields").hidden = true;
+          $("m-save").hidden = true;
+          $("member-modal").classList.add("open");
+        } catch (error) { A.toast(error.message, "error"); }
+        return;
+      }
+      if (remove) {
+        member = state.members.find(function (m) { return m.id === Number(remove.getAttribute("data-delete")); });
+        if (!member) return;
+        var ok = await A.confirmDialog({ title: "حذف الحساب", message: "سيتم حذف حساب " + member.fullName + " ولن يتمكن من الدخول بعد ذلك. هل تريد المتابعة؟", confirmText: "حذف", danger: true });
+        if (!ok) return;
+        try { await A.API.del("/api/team/" + member.id); A.toast("تم حذف الحساب"); load(); }
+        catch (error) { A.toast(error.message, "error"); }
+      }
+    });
+  })();
+})();
+</script>
+</body>
+</html>

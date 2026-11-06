@@ -1,0 +1,10 @@
+# إعداد Cloudflare Pages + D1
+name = "rayat-alqanoon"
+pages_build_output_dir = "public"
+compatibility_date = "2025-01-01"
+
+[[d1_databases]]
+binding = "DB"
+database_name = "rayat-alqanoon"
+# ضع معرّف قاعدة البيانات من لوحة Cloudflare بعد إنشائها:
+database_id = "PUT-YOUR-D1-DATABASE-ID-HERE"

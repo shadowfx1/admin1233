@@ -1,0 +1,7 @@
+User-agent: *
+Allow: /
+Disallow: /404.html
+Disallow: /admin/
+Disallow: /api/
+
+Sitemap: https://rayat-alqanoon.pages.dev/sitemap.xml
