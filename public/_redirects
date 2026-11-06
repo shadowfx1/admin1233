@@ -1,0 +1,10 @@
+/services.html /services/ 301
+/articles.html /articles/ 301
+/branches.html /locations/ 301
+/contact.html /contact/ 301
+/cities/:splat /locations/:splat 301
+/en/services.html /en/services/ 301
+/en/articles.html /en/articles/ 301
+/en/branches.html /en/locations/ 301
+/en/contact.html /en/contact/ 301
+/en/cities/:splat /en/locations/:splat 301
